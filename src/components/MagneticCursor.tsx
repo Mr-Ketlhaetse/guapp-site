@@ -1,56 +1,48 @@
-import { useEffect, useRef } from 'react'
-import { motion, useSpring, useReducedMotion } from 'framer-motion'
-import { useMousePosition } from '../hooks/useMousePosition'
+import { useEffect } from 'react'
+import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 
 export default function MagneticCursor() {
-  const { x, y } = useMousePosition()
   const shouldReduce = useReducedMotion()
+
+  const mouseX = useMotionValue(-100)
+  const mouseY = useMotionValue(-100)
+  const cursorSize = useMotionValue(12)
+  const cursorOpacity = useMotionValue(0.5)
 
   const springConfig = shouldReduce
     ? { stiffness: 10000, damping: 1000 }
     : { stiffness: 150, damping: 20 }
 
-  const springX = useSpring(x, springConfig)
-  const springY = useSpring(y, springConfig)
-
-  const sizeRef = useRef(12)
-  const opacityRef = useRef(0.5)
-
-  const motionSize = useSpring(12, springConfig)
-  const motionOpacity = useSpring(0.5, springConfig)
+  const springX = useSpring(mouseX, springConfig)
+  const springY = useSpring(mouseY, springConfig)
+  const springSize = useSpring(cursorSize, springConfig)
+  const springOpacity = useSpring(cursorOpacity, { stiffness: 200, damping: 25 })
 
   useEffect(() => {
-    const magneticEls = document.querySelectorAll<HTMLElement>(
-      'a, button, [data-magnetic]'
-    )
-
-    function onEnter(el: HTMLElement) {
-      return () => {
-        motionSize.set(40)
-        motionOpacity.set(0.3)
-        sizeRef.current = 40
-        opacityRef.current = 0.3
-
-        const rect = el.getBoundingClientRect()
-        const centerX = rect.left + rect.width / 2
-        const centerY = rect.top + rect.height / 2
-        springX.set(centerX - 20)
-        springY.set(centerY - 20)
-      }
+    const handleMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
     }
+    window.addEventListener('mousemove', handleMove)
+    return () => window.removeEventListener('mousemove', handleMove)
+  }, [mouseX, mouseY])
 
-    function onLeave() {
-      motionSize.set(12)
-      motionOpacity.set(0.5)
-      sizeRef.current = 12
-      opacityRef.current = 0.5
-    }
-
+  useEffect(() => {
+    const magneticEls = document.querySelectorAll<HTMLElement>('a, button, [data-magnetic]')
     const handlers: Array<{ el: HTMLElement; enter: () => void; leave: () => void }> = []
 
     magneticEls.forEach((el) => {
-      const enter = onEnter(el)
-      const leave = onLeave
+      const enter = () => {
+        cursorSize.set(40)
+        cursorOpacity.set(0.3)
+        const rect = el.getBoundingClientRect()
+        mouseX.set(rect.left + rect.width / 2)
+        mouseY.set(rect.top + rect.height / 2)
+      }
+      const leave = () => {
+        cursorSize.set(12)
+        cursorOpacity.set(0.5)
+      }
       el.addEventListener('mouseenter', enter)
       el.addEventListener('mouseleave', leave)
       handlers.push({ el, enter, leave })
@@ -62,7 +54,7 @@ export default function MagneticCursor() {
         el.removeEventListener('mouseleave', leave)
       })
     }
-  }, [motionSize, motionOpacity, springX, springY])
+  }, [cursorSize, cursorOpacity, mouseX, mouseY])
 
   return (
     <motion.div
@@ -72,11 +64,11 @@ export default function MagneticCursor() {
         left: 0,
         x: springX,
         y: springY,
-        width: motionSize,
-        height: motionSize,
+        width: springSize,
+        height: springSize,
         borderRadius: '50%',
         backgroundColor: '#2ECC71',
-        opacity: motionOpacity,
+        opacity: springOpacity,
         pointerEvents: 'none',
         zIndex: 9999,
         translateX: '-50%',

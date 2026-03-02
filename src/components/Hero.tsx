@@ -1,6 +1,10 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import NetworkCanvas from './NetworkCanvas'
 
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+
 const headlineWords = ['Globally', 'Unique', 'Apps,', 'Built', 'for', 'Impact.']
 
 export default function Hero() {
@@ -84,18 +88,18 @@ export default function Hero() {
           animate="visible"
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <a
-            href="#work"
+          <button
+            onClick={() => scrollTo('work')}
             className="px-8 py-3.5 rounded-lg bg-green text-dark font-heading font-semibold hover:brightness-110 transition-all"
           >
             See Our Work
-          </a>
-          <a
-            href="#capabilities"
+          </button>
+          <button
+            onClick={() => scrollTo('capabilities')}
             className="px-8 py-3.5 rounded-lg border border-white/20 text-white font-heading font-semibold hover:border-green hover:text-green transition-all"
           >
             View Capabilities
-          </a>
+          </button>
         </motion.div>
       </div>
     </section>

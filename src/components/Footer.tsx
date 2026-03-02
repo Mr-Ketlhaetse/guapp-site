@@ -1,5 +1,9 @@
 import { useMousePosition } from '../hooks/useMousePosition'
 
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+
 function GuAppLogoLarge({ size = 80 }: { size?: number }) {
   const r1 = size * 0.38
   const r2 = size * 0.22
@@ -57,19 +61,14 @@ function TiltLogo() {
 }
 
 const navLinks = [
-  { label: 'Work', href: '#work' },
-  { label: 'Capabilities', href: '#capabilities' },
-  { label: 'Process', href: '#process' },
-  { label: 'Tech Stack', href: '#tech' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Work', id: 'work' },
+  { label: 'Capabilities', id: 'capabilities' },
+  { label: 'Process', id: 'process' },
+  { label: 'Tech Stack', id: 'tech' },
+  { label: 'Contact', id: 'contact' },
 ]
 
-const socialLinks = [
-  { label: 'GitHub', href: '#' },
-  { label: 'Twitter / X', href: '#' },
-  { label: 'LinkedIn', href: '#' },
-  { label: 'Dribbble', href: '#' },
-]
+const socialLinks = ['GitHub', 'Twitter / X', 'LinkedIn', 'Dribbble']
 
 export default function Footer() {
   return (
@@ -92,12 +91,12 @@ export default function Footer() {
           <ul className="space-y-3">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
+                <button
+                  onClick={() => scrollTo(link.id)}
                   className="text-steel text-sm hover:text-white transition-colors"
                 >
                   {link.label}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
@@ -109,14 +108,9 @@ export default function Footer() {
             Follow Us
           </h4>
           <ul className="space-y-3">
-            {socialLinks.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  className="text-steel text-sm hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
+            {socialLinks.map((label) => (
+              <li key={label}>
+                <span className="text-steel text-sm">{label}</span>
               </li>
             ))}
           </ul>

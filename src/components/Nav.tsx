@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+
 function GuAppLogo({ size = 40 }: { size?: number }) {
   const r1 = size * 0.38
   const r2 = size * 0.22
   const cx = size / 2
   const cy = size / 2
 
-  // Arc terminals
   const terminals = [
     { x: cx + r1, y: cy },
     { x: cx - r1, y: cy },
@@ -17,21 +20,18 @@ function GuAppLogo({ size = 40 }: { size?: number }) {
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
-      {/* Outer arc (top half) */}
       <path
         d={`M ${cx - r1} ${cy} A ${r1} ${r1} 0 0 1 ${cx + r1} ${cy}`}
         stroke="#2ECC71"
         strokeWidth="2"
         fill="none"
       />
-      {/* Inner arc (top half) */}
       <path
         d={`M ${cx - r2} ${cy} A ${r2} ${r2} 0 0 1 ${cx + r2} ${cy}`}
         stroke="#2ECC71"
         strokeWidth="2"
         fill="none"
       />
-      {/* Terminal circles */}
       {terminals.map((t, i) => (
         <circle key={i} cx={t.x} cy={t.y} r="2" fill="#2ECC71" />
       ))}
@@ -40,10 +40,10 @@ function GuAppLogo({ size = 40 }: { size?: number }) {
 }
 
 const navLinks = [
-  { label: 'Work', href: '#work' },
-  { label: 'Capabilities', href: '#capabilities' },
-  { label: 'Process', href: '#process' },
-  { label: 'Tech Stack', href: '#tech' },
+  { label: 'Work', id: 'work' },
+  { label: 'Capabilities', id: 'capabilities' },
+  { label: 'Process', id: 'process' },
+  { label: 'Tech Stack', id: 'tech' },
 ]
 
 export default function Nav() {
@@ -60,33 +60,34 @@ export default function Nav() {
     <nav className="sticky top-0 z-50 backdrop-blur-md border-b border-white/5 bg-dark/80">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="flex items-center gap-3"
+        >
           <GuAppLogo size={40} />
-          <span className="font-heading font-700 text-white text-xl tracking-wide">
+          <span className="font-heading font-bold text-white text-xl tracking-wide">
             GuApp
           </span>
-        </a>
+        </button>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <button
               key={link.label}
-              href={link.href}
+              onClick={() => scrollTo(link.id)}
               className="text-steel hover:text-white transition-colors text-sm font-medium"
             >
               {link.label}
-            </a>
+            </button>
           ))}
-          <a
-            href="#contact"
+          <button
+            onClick={() => scrollTo('contact')}
             className="px-5 py-2 rounded-lg bg-green text-dark font-semibold text-sm nav-cta"
-            style={{
-              boxShadow: shouldReduce ? 'none' : undefined,
-            }}
+            style={{ boxShadow: shouldReduce ? 'none' : undefined }}
           >
             Start a Project
-          </a>
+          </button>
         </div>
 
         {/* Mobile hamburger */}
@@ -119,22 +120,20 @@ export default function Nav() {
             className="md:hidden border-t border-white/5 bg-dark/95 px-6 py-4 flex flex-col gap-4"
           >
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
-                className="text-steel hover:text-white transition-colors text-sm font-medium py-2"
-                onClick={() => setMenuOpen(false)}
+                onClick={() => { scrollTo(link.id); setMenuOpen(false) }}
+                className="text-steel hover:text-white transition-colors text-sm font-medium py-2 text-left"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
-            <a
-              href="#contact"
+            <button
+              onClick={() => { scrollTo('contact'); setMenuOpen(false) }}
               className="px-5 py-2 rounded-lg bg-green text-dark font-semibold text-sm text-center"
-              onClick={() => setMenuOpen(false)}
             >
               Start a Project
-            </a>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

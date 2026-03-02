@@ -32,6 +32,8 @@ function validate(data: FormData): FormErrors {
   return errors
 }
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xeelbqga'
+
 export default function Contact() {
   const shouldReduce = useReducedMotion()
   const [form, setForm] = useState<FormData>({
@@ -42,6 +44,8 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -50,15 +54,32 @@ export default function Contact() {
     setErrors((prev) => ({ ...prev, [e.target.name]: undefined }))
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const errs = validate(form)
     if (Object.keys(errs).length > 0) {
       setErrors(errs)
       return
     }
-    console.log('Contact form submission:', form)
-    setSubmitted(true)
+    setSubmitting(true)
+    setSubmitError(null)
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setSubmitError((data as { error?: string }).error ?? 'Submission failed. Please try again.')
+      }
+    } catch {
+      setSubmitError('Network error. Please check your connection and try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const inputClass =
@@ -171,11 +192,16 @@ export default function Contact() {
                 {errors.message && <p className={errorClass}>{errors.message}</p>}
               </div>
 
+              {submitError && (
+                <p className="text-red-400 text-sm">{submitError}</p>
+              )}
+
               <button
                 type="submit"
-                className="w-full px-8 py-3.5 rounded-lg bg-green text-dark font-heading font-semibold hover:brightness-110 transition-all nav-cta"
+                disabled={submitting}
+                className="w-full px-8 py-3.5 rounded-lg bg-green text-dark font-heading font-semibold hover:brightness-110 transition-all nav-cta disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send Message
+                {submitting ? 'Sending…' : 'Send Message'}
               </button>
             </form>
           )}
