@@ -1,41 +1,8 @@
 import { useMousePosition } from '../hooks/useMousePosition'
+import logoUrl from '../assets/guapp_favicon.png'
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-}
-
-function GuAppLogoLarge({ size = 80 }: { size?: number }) {
-  const r1 = size * 0.38
-  const r2 = size * 0.22
-  const cx = size / 2
-  const cy = size / 2
-
-  const terminals = [
-    { x: cx + r1, y: cy },
-    { x: cx - r1, y: cy },
-    { x: cx + r2, y: cy },
-    { x: cx - r2, y: cy },
-  ]
-
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
-      <path
-        d={`M ${cx - r1} ${cy} A ${r1} ${r1} 0 0 1 ${cx + r1} ${cy}`}
-        stroke="#2ECC71"
-        strokeWidth="2.5"
-        fill="none"
-      />
-      <path
-        d={`M ${cx - r2} ${cy} A ${r2} ${r2} 0 0 1 ${cx + r2} ${cy}`}
-        stroke="#2ECC71"
-        strokeWidth="2.5"
-        fill="none"
-      />
-      {terminals.map((t, i) => (
-        <circle key={i} cx={t.x} cy={t.y} r="3" fill="#2ECC71" />
-      ))}
-    </svg>
-  )
 }
 
 function TiltLogo() {
@@ -55,7 +22,7 @@ function TiltLogo() {
         display: 'inline-block',
       }}
     >
-      <GuAppLogoLarge size={80} />
+      <img src={logoUrl} alt="GuApp logo" style={{ width: 80, height: 80, objectFit: 'contain' }} />
     </div>
   )
 }
@@ -78,6 +45,7 @@ export default function Footer() {
         <div className="flex flex-col items-start gap-4">
           <TiltLogo />
           <span className="font-heading font-bold text-white text-xl">GuApp</span>
+
           <p className="text-steel text-sm leading-relaxed max-w-xs">
             Globally Unique Applications. We build products that stand apart.
           </p>
