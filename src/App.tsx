@@ -15,7 +15,7 @@ function HomePage() {
     <>
       <Nav />
       <Hero />
-      <WorkShowcase />
+      {/* <WorkShowcase /> */}
       <Capabilities />
       <ProcessTimeline />
       <TechStack />
