@@ -4,11 +4,11 @@ const techItems = [
   'React',
   'TypeScript',
   'Node.js',
-  'Swift',
+  'PostgreSQL',
   'Kotlin',
-  'Figma',
-  'AWS',
-  'OpenAI',
+  'openAI',
+  'Python',
+  'Docker',
 ]
 
 export default function TechStack() {
