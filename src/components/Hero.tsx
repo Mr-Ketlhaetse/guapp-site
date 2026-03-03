@@ -5,7 +5,7 @@ function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
-const headlineWords = ['Globally', 'Unique', 'Apps,', 'Built', 'for', 'Impact.']
+const headlineWords = ['Globally', 'Unique', 'Appllications,', 'Built', 'for', 'Impact.']
 
 export default function Hero() {
   const shouldReduce = useReducedMotion()
