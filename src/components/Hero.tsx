@@ -88,12 +88,12 @@ export default function Hero() {
           animate="visible"
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <button
+          {/* <button
             onClick={() => scrollTo('work')}
             className="px-8 py-3.5 rounded-lg bg-green text-dark font-heading font-semibold hover:brightness-110 transition-all"
           >
             See Our Work
-          </button>
+          </button> */}
           <button
             onClick={() => scrollTo('capabilities')}
             className="px-8 py-3.5 rounded-lg border border-white/20 text-white font-heading font-semibold hover:border-green hover:text-green transition-all"
