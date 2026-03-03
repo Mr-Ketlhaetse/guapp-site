@@ -79,7 +79,7 @@ export default function Footer() {
           <TiltLogo />
           <span className="font-heading font-bold text-white text-xl">GuApp</span>
           <p className="text-steel text-sm leading-relaxed max-w-xs">
-            Globally Unique Apps. We build products that stand apart.
+            Globally Unique Applications. We build products that stand apart.
           </p>
         </div>
 
