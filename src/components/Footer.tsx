@@ -68,7 +68,7 @@ const navLinks = [
   { label: 'Contact', id: 'contact' },
 ]
 
-const socialLinks = ['GitHub', 'Twitter / X', 'LinkedIn', 'Dribbble']
+const socialLinks = ['GitHub', 'Twitter / X', 'LinkedIn']
 
 export default function Footer() {
   return (
