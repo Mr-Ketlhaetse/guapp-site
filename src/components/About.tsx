@@ -25,15 +25,13 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: shouldReduce ? 0 : 0.6 }}
-          className="mb-16 max-w-3xl"
+          className="mb-16"
         >
           <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-white">
             About GuApp
           </h2>
           <p className="text-steel mt-4 text-lg leading-relaxed">
-            GuApp is a software studio specialising in mobile, web, and AI-driven applications.
-            We work with startups and growing businesses to design, build, and ship products
-            that are fast, reliable, and built to scale — without the overhead of a large agency.
+            GuApp is a software studio specialising in mobile, web, and AI-driven applications. We work with startups and growing businesses to design, build, and ship products that are fast, reliable, and built to scale — without the overhead of a large agency.
           </p>
         </motion.div>
 
