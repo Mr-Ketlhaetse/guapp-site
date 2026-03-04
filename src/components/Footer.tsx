@@ -28,7 +28,7 @@ function TiltLogo() {
 }
 
 const navLinks = [
-  { label: 'Work', id: 'work' },
+  /*{ label: 'Work', id: 'work' },*/
   { label: 'Capabilities', id: 'capabilities' },
   { label: 'Process', id: 'process' },
   { label: 'Tech Stack', id: 'tech' },

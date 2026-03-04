@@ -1,11 +1,12 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import NetworkCanvas from './NetworkCanvas'
+import logoUrl from '../assets/guapp_favicon.png'
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
-const headlineWords = ['Globally', 'Unique', 'Appllications,', 'Built', 'for', 'Impact.']
+const headlineWords = ['Built', 'for', 'Impact.']
 
 export default function Hero() {
   const shouldReduce = useReducedMotion()
@@ -54,6 +55,16 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-dark/60 via-transparent to-dark/80 pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        {/* Logo */}
+        <motion.img
+          src={logoUrl}
+          alt="GuApp logo"
+          initial={{ opacity: 0, scale: shouldReduce ? 1 : 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: shouldReduce ? 0 : 0.6, ease: 'easeOut' as const }}
+          className="w-[28rem] h-[28rem] md:w-[36rem] md:h-[36rem] object-contain mx-auto -mb-32"
+        />
+
         {/* Headline */}
         <h1 className="font-heading font-extrabold text-5xl md:text-7xl text-white leading-tight mb-6">
           {headlineWords.map((word, i) => (
