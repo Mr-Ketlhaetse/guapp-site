@@ -4,6 +4,7 @@ import MagneticCursor from './components/MagneticCursor'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 // import WorkShowcase from './components/WorkShowcase'
+import About from './components/About'
 import Capabilities from './components/Capabilities'
 import ProcessTimeline from './components/ProcessTimeline'
 import TechStack from './components/TechStack'
@@ -16,6 +17,7 @@ function HomePage() {
       <Nav />
       <Hero />
       {/* <WorkShowcase /> */}
+      <About />
       <Capabilities />
       <ProcessTimeline />
       <TechStack />

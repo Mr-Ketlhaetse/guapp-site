@@ -88,14 +88,15 @@ export default function Contact() {
   const errorClass = 'text-red-400 text-xs mt-1'
 
   return (
-    <section id="contact" className="py-24 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+    <section id="contact" className="py-24 px-4 sm:px-6 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         {/* Left: Headline + value props */}
         <motion.div
           initial={{ opacity: 0, x: shouldReduce ? 0 : -32 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: shouldReduce ? 0 : 0.6 }}
+          className="min-w-0"
         >
           <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-white mb-6">
             Start a Project
@@ -126,6 +127,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: shouldReduce ? 0 : 0.6 }}
+          className="min-w-0"
         >
           {submitted ? (
             <div className="rounded-2xl bg-white/5 border border-white/10 p-10 text-center">

@@ -7,6 +7,7 @@ function scrollTo(id: string) {
 }
 
 const navLinks = [
+  { label: 'About', id: 'about' },
   { label: 'Work', id: 'work' },
   { label: 'Capabilities', id: 'capabilities' },
   { label: 'Process', id: 'process' },
