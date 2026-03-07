@@ -31,7 +31,7 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/cpanel_deploy
+          echo "${{ secrets.CPANEL_SSH_KEY }}" | tr -d '\r' > ~/.ssh/cpanel_deploy
           chmod 600 ~/.ssh/cpanel_deploy
           ssh-keyscan -p 21098 68.65.123.140 >> ~/.ssh/known_hosts
 
