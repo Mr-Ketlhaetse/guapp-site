@@ -35,9 +35,9 @@ jobs:
           # Copy .cpanel.yml into dist so it lands on the production branch
           cp .cpanel.yml dist/
 
-          # Configure git identity for the commit
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Configure git identity globally so it applies to the new repo in dist/
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
           # Bootstrap a fresh repo inside dist and force-push it to production.
           # This keeps the production branch as a clean, dist-only orphan branch
