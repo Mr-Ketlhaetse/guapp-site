@@ -1,0 +1,51 @@
+name: Deploy to Production (cPanel)
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        run: npx vite build --base /
+
+      - name: Deploy dist to production branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Copy .cpanel.yml into dist so it lands on the production branch
+          cp .cpanel.yml dist/
+
+          # Configure git identity for the commit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Bootstrap a fresh repo inside dist and force-push it to production.
+          # This keeps the production branch as a clean, dist-only orphan branch
+          # with no source-code history leaking in.
+          cd dist
+          git init
+          git add -A
+          git commit -m "deploy: ${GITHUB_SHA::7} $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push --force \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:production
