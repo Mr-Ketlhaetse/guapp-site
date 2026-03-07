@@ -33,7 +33,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/cpanel_deploy
           chmod 600 ~/.ssh/cpanel_deploy
-          ssh-keyscan -p 21098 guapp.co.bw >> ~/.ssh/known_hosts
+          ssh-keyscan -p 21098 68.65.123.140 >> ~/.ssh/known_hosts
 
       - name: Deploy to cPanel
         run: |
@@ -49,5 +49,5 @@ jobs:
 
           GIT_SSH_COMMAND="ssh -i ~/.ssh/cpanel_deploy -o StrictHostKeyChecking=yes" \
           git push --force \
-            ssh://guapnfsp@guapp.co.bw:21098/home/guapnfsp/repositories/guapp-site \
+            ssh://guapnfsp@68.65.123.140:21098/home/guapnfsp/repositories/guapp-site \
             HEAD:production
